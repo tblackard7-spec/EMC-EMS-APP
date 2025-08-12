@@ -18,14 +18,15 @@ app.get('/', (req, res) => {
   res.send('🚑 EMC-EMS App is running!');
 });
 // Test route to get data from MongoDB
-// Test route to get data from MongoDB
+// Route to get all patients
 app.get('/data', async (req, res) => {
   try {
     const patients = await mongoose.connection.db
-      .collection("patients")
-      .find({})
-      .toArray();
-    res.json(patients);
+      .collection('patients')  // Go into the patients collection
+      .find({})                // Find everything in it
+      .toArray();               // Turn it into an array
+
+    res.json({ message: "Connected to MongoDB", data: patients });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
