@@ -18,13 +18,17 @@ app.get('/', (req, res) => {
   res.send('🚑 EMC-EMS App is running!');
 });
 // Test route to get data from MongoDB
+// Test route to get data from MongoDB
 app.get('/data', async (req, res) => {
-    try {
-        const collections = await mongoose.connection.db.listCollections().toArray();
-        res.json({ message: "Connected to MongoDB", collections });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+  try {
+    const patients = await mongoose.connection.db
+      .collection("patients")
+      .find({})
+      .toArray();
+    res.json(patients);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
